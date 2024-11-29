@@ -1,6 +1,8 @@
 // Importa o framework Express para gerenciar o servidor web
 import express from "express";
 
+import fs from "fs";
+import path from "path";
 // Importa o Multer para manipulação de uploads de arquivos
 import multer from "multer";
 
@@ -20,10 +22,16 @@ const corsOptions = {
 
 // Configuração de armazenamento para o Multer
 // - Define onde os arquivos serão salvos e seus nomes
+const uploadDir = path.resolve("uploads");
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
     // Define o diretório onde os arquivos serão salvos
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, uploadDir); // Agora usando o caminho absoluto
     },
     // Define o nome do arquivo com o nome original
     filename: function (req, file, cb) {
