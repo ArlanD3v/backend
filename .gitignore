@@ -1,3 +1,4 @@
 node_modules
 .env
 tarefas.txt
+services.sh
